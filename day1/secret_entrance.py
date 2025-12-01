@@ -1,4 +1,4 @@
-turns = open('input.txt').read().splitlines()
+turns = open('rotations.txt').read().splitlines()
 
 pointer = 50
 counter_a, counter_b = 0, 0
@@ -8,7 +8,6 @@ for turn in turns:
   spin = int(turn[1:])
 
   if spin > 99:
-    old_spin = spin
     counter_b += (spin//100)
     spin = spin % 100
 
