@@ -3,30 +3,24 @@ start_time = time.time()
 
 ratings = open('joltage_ratings.txt').read().split('\n')
 
-def get_tens_digit(rating):
-  for i in range(9, 0, -1):
-    ind = rating.find(str(i))
-    if ind > -1 and ind != (len(rating)-1):
-      return ind
-
-def get_singles_digit(rating):
-  for i in range(9, 0, -1):
-    ind = rating.find(str(i))
+def get_next_highest_digit(rating, length):
+  for i in range(9, 0 , -1):
+    print(rating, rating[:length])
+    ind = rating[:length].find(str(i))
     if ind > -1:
       return ind
 
-count_a = 0
+count_a, count_b = 0, 0
 for rating in ratings:
   joltage = ''
 
-  ind = get_tens_digit(rating)
-  joltage += rating[ind]
-  rating = rating[ind+1:]
+  while len(joltage) < 12:
+    ind = get_next_highest_digit(rating, len(rating) - (12-len(joltage)) +1)
+    joltage += str(rating[ind])
+    rating = rating[ind+1:]
 
-  ind = get_singles_digit(rating)
-  joltage += rating[ind]
-
-  count_a += int(joltage)
+  count_b += int(joltage)
 
 print(count_a)
+print(count_b)
 print(time.time()-start_time)
