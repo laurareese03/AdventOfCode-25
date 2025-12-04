@@ -29,9 +29,12 @@ for id_range in id_ranges:
     # chunk the id into equal length strings and check if all are the same
     # I wonder how much faster I can make it without checking the 1 factor
     # (dropped from 67s to 41s to 31s only checking needed duplicates)
+    # (officially dropped to 27s, no more optimization)
     for j in coprime_factors[len(i)]:
+      if j == 1 and i[0] != i[1]:
+        continue
       holder = textwrap.wrap(i, j)
-      if len(set(holder)) == 1:
+      if holder[:-1] == holder[1:]:
         count_b += int(i)
         break
 
