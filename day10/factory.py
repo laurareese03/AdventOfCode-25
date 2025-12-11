@@ -1,4 +1,4 @@
-import time, re, numpy as np, queue as q
+import time, re, numpy as np, random
 start_time = time.time()
 
 manual = open('manual.txt').read().strip().split('\n')
@@ -41,3 +41,33 @@ def get_best_button(buttons, expected, current):
       current[b] = not current[b]
   return best_button
 
+for line in man:
+  expected = np.array(line[0])
+  current = np.array([0] * len(expected))
+  buttons = line[1]
+
+  diff = (expected == current)
+  unique, counts = np.unique(diff, return_counts=True)
+  statements = dict(zip(unique, counts))
+
+  while statements[True] != len(expected):
+    r = random.random()
+    if r < .75: # random here
+      button = random.choice(buttons)
+      for b in button:
+        current[b] = not current[b]
+
+      diff = (expected == current)
+      unique, counts = np.unique(diff, return_counts=True)
+      statements = dict(zip(unique, counts))
+    else: # non random here
+      button = get_best_button(buttons, expected, current)
+      for b in button:
+        current[b] = not current[b]
+
+      diff = (expected == current)
+      unique, counts = np.unique(diff, return_counts=True)
+      statements = dict(zip(unique, counts))
+      print(expected, current,)
+      print(button)
+  print('------')
